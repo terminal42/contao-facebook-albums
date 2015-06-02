@@ -11,4 +11,4 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['facebook_albums'] = ['Facebook albums', 'Manage the Facebook albums accounts.'];
+$GLOBALS['TL_LANG']['MOD']['facebook_albums'] = ['Facebook album accounts', 'Manage the Facebook albums accounts.'];

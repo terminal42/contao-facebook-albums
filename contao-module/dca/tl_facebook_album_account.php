@@ -40,8 +40,8 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
         ),
         'label' => array
         (
-            'fields'                  => array('name'),
-            'format'                  => '%s'
+            'fields'                  => array('name', 'appId'),
+            'format'                  => '%s <span style="padding-left:3px;color:#b3b3b3">[%s]</span>'
         ),
         'global_operations' => array
         (
