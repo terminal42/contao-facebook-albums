@@ -1,0 +1,32 @@
+{
+  "name":"terminal42/contao-facebook-albums",
+  "description":"Allow the Contao to display Facebook albums.",
+  "keywords":["contao", "facebook", "album", "gallery", "image"],
+  "type":"contao-module",
+  "license":"MIT",
+  "authors":[
+    {
+      "name":"Kamil Kuzminski",
+      "email":"kamil.kuzminski@terminal42.ch",
+      "homepage":"http://terminal42.ch"
+    }
+  ],
+  "require":{
+    "php":">=5.4.0",
+    "contao/core":"3.5.*",
+    "contao-community-alliance/composer-plugin":"2.*",
+    "facebook/php-sdk-v4":"4.0.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Terminal42\\FacebookAlbumsExtension\\": "src"
+    }
+  },
+  "extra":{
+    "contao": {
+      "sources":{
+        "contao-module": "system/modules/facebook-albums"
+      }
+    }
+  }
+}
