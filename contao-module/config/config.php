@@ -15,3 +15,13 @@ $GLOBALS['BE_MOD']['system']['facebook_albums'] = [
     'tables' => ['tl_facebook_album_account'],
     'icon'   => 'system/modules/facebook-albums/assets/icon.png',
 ];
+
+/**
+ * Content elements
+ */
+$GLOBALS['TL_CTE']['media']['facebook_album'] = 'Terminal42\FacebookAlbumsExtension\AlbumContentElement';
+
+/**
+ * Models
+ */
+$GLOBALS['TL_MODELS']['tl_facebook_album_account'] = 'Terminal42\FacebookAlbumsExtension\AccountModel';

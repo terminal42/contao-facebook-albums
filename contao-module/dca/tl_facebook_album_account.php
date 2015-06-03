@@ -40,7 +40,7 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
         ),
         'label' => array
         (
-            'fields'                  => array('name', 'appId'),
+            'fields'                  => array('name', 'userId'),
             'format'                  => '%s <span style="padding-left:3px;color:#b3b3b3">[%s]</span>'
         ),
         'global_operations' => array
@@ -86,7 +86,7 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
     // Palettes
     'palettes' => array
     (
-        'default'                     => '{name_legend},name,appId,appSecret;{config_legend},folder'
+        'default'                     => '{name_legend},name,userId,appId,appSecret;{config_legend},folder'
     ),
 
     // Fields
@@ -106,8 +106,17 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
             'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'userId' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_facebook_album_account']['userId'],
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>32, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(32) NOT NULL default ''"
         ),
         'appId' => array
         (
@@ -115,16 +124,16 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(255) NOT NULL default ''"
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>32, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(32) NOT NULL default ''"
         ),
         'appSecret' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_facebook_album_account']['appSecret'],
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(255) NOT NULL default ''"
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>32, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(32) NOT NULL default ''"
         ),
         'folder' => array
         (
