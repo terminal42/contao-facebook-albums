@@ -32,8 +32,8 @@ class AlbumContentElement extends \ContentGallery
         }
 
         // Update the album if it is outdated
-        if (FacebookAlbums::isAlbumOutdated($accountModel, $this->facebook_album_id, $this->facebook_album_tstamp)) {
-            FacebookAlbums::fetchAlbumImages($accountModel, $this->facebook_album_id);
+        if (FacebookAlbums::isAlbumOutdated($accountModel, $this->facebook_album, $this->facebook_album_tstamp)) {
+            FacebookAlbums::fetchAlbumImages($accountModel, $this->facebook_album);
         }
 
         // @todo
