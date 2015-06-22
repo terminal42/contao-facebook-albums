@@ -40,7 +40,7 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
         ),
         'label' => array
         (
-            'fields'                  => array('name', 'userId'),
+            'fields'                  => array('name', 'pageId'),
             'format'                  => '%s <span style="padding-left:3px;color:#b3b3b3">[%s]</span>'
         ),
         'global_operations' => array
@@ -79,14 +79,14 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
                 'label'               => &$GLOBALS['TL_LANG']['tl_facebook_album_account']['show'],
                 'href'                => 'act=show',
                 'icon'                => 'show.gif'
-            )
+            ),
         )
     ),
 
     // Palettes
     'palettes' => array
     (
-        'default'                     => '{name_legend},name,userId,appId,appSecret;{config_legend},folder'
+        'default'                     => '{name_legend},name,pageId,appId,appSecret;{config_legend},folder'
     ),
 
     // Fields
@@ -109,9 +109,9 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
-        'userId' => array
+        'pageId' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_facebook_album_account']['userId'],
+            'label'                   => &$GLOBALS['TL_LANG']['tl_facebook_album_account']['pageId'],
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',

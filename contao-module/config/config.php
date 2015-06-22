@@ -25,3 +25,8 @@ $GLOBALS['TL_CTE']['media']['facebook_album'] = 'Terminal42\FacebookAlbumsExtens
  * Models
  */
 $GLOBALS['TL_MODELS']['tl_facebook_album_account'] = 'Terminal42\FacebookAlbumsExtension\AccountModel';
+
+/**
+ * Cron jobs
+ */
+$GLOBALS['TL_CRON']['hourly'][] = ['Terminal42\FacebookAlbumsExtension\Automator', 'updateAlbums'];
