@@ -33,8 +33,17 @@ class Automator
 
         /** @var \ContentModel $contentModel */
         foreach ($contentModels as $contentModel) {
-            if (FacebookAlbums::isAlbumOutdated($contentModel->accountModel, $contentModel->facebook_album)) {
-                FacebookAlbums::fetchAlbumImages($contentModel->accountModel, $contentModel->facebook_album);
+            $accountModel = AccountModel::findByPk($contentModel->accountModel);
+
+            if ($accountModel === null) {
+                continue;
+            }
+
+            $facebookAlbum = new FacebookAlbum($accountModel);
+            $facebookAlbum->setAlbumId($contentModel->facebook_album);
+
+            if ($facebookAlbum->isOutdated()) {
+                $facebookAlbum->fetchImages();
                 $count++;
             }
         }

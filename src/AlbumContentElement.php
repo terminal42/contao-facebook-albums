@@ -25,16 +25,10 @@ class AlbumContentElement extends \ContentElement
     protected $strTemplate = 'ce_gallery';
 
     /**
-     * Account model
-     * @var AccountModel
+     * Facebook album
+     * @var FacebookAlbum
      */
-    protected $accountModel;
-
-    /**
-     * Album folder
-     * @var \Folder
-     */
-    protected $albumFolder;
+    protected $facebookAlbum;
 
     /**
      * Return if there are no files
@@ -43,21 +37,27 @@ class AlbumContentElement extends \ContentElement
      */
     public function generate()
     {
-        $this->accountModel = AccountModel::findByPk($this->facebook_album_account);
+        $accountModel = AccountModel::findByPk($this->facebook_album_account);
 
-        if ($this->accountModel === null) {
+        if ($accountModel === null) {
             return '';
         }
 
-        $this->albumFolder = FacebookAlbums::getFolder($this->accountModel, $this->facebook_album);
+        $this->facebookAlbum = new FacebookAlbum($accountModel);
+        $this->facebookAlbum->setAlbumId($this->facebook_album);
 
-        if ($this->albumFolder === null) {
+        if ($this->facebookAlbum->getAlbumFolder() === null) {
+            return '';
+        }
+
+        // Could not connect to the Facebook
+        if (!$this->facebookAlbum->connect()) {
             return '';
         }
 
         // Create the album if it is new
-        if (FacebookAlbums::isAlbumNew($this->accountModel, $this->facebook_album)) {
-            FacebookAlbums::fetchAlbumImages($this->accountModel, $this->facebook_album);
+        if ($this->facebookAlbum->isNew()) {
+            $this->facebookAlbum->fetchImages();
         }
 
         return parent::generate();
@@ -68,7 +68,7 @@ class AlbumContentElement extends \ContentElement
      */
     protected function compile()
     {
-        $files = \FilesModel::findByPid($this->albumFolder->getModel()->uuid);
+        $files = \FilesModel::findByPid($this->facebookAlbum->getAlbumFolder()->getModel()->uuid);
 
         if ($files === null) {
             return;
@@ -80,7 +80,7 @@ class AlbumContentElement extends \ContentElement
             return;
         }
 
-        $metaFile = FacebookAlbums::getMetaFile($this->accountModel, $this->facebook_album);
+        $metaFile = $this->facebookAlbum->getMetaFile();
 
         // Sort the files if there is a meta file
         if ($metaFile !== null) {
@@ -120,7 +120,12 @@ class AlbumContentElement extends \ContentElement
             $offset = ($page - 1) * $this->perPage;
             $limit  = min($this->perPage + $offset, $total);
 
-            $pagination                 = new \Pagination($total, $this->perPage, \Config::get('maxPaginationLinks'), $id);
+            $pagination                 = new \Pagination(
+                $total,
+                $this->perPage,
+                \Config::get('maxPaginationLinks'),
+                $id
+            );
             $this->Template->pagination = $pagination->generate("\n  ");
         }
 
@@ -193,7 +198,9 @@ class AlbumContentElement extends \ContentElement
     {
         $rowcount   = 0;
         $colwidth   = floor(100 / $this->perRow);
-        $maxWidth   = (TL_MODE == 'BE') ? floor((640 / $this->perRow)) : floor((\Config::get('maxImageWidth') / $this->perRow));
+        $maxWidth   = (TL_MODE == 'BE') ? floor((640 / $this->perRow)) : floor(
+            (\Config::get('maxImageWidth') / $this->perRow)
+        );
         $lightboxId = 'lightbox[lb' . $this->id . ']';
         $body       = array();
 
@@ -224,7 +231,7 @@ class AlbumContentElement extends \ContentElement
                 }
 
                 $cell = new \stdClass();
-                $key     = 'row_' . $rowcount . $class_tr . $class_eo;
+                $key  = 'row_' . $rowcount . $class_tr . $class_eo;
 
                 // Empty cell
                 if (!is_array($images[($i + $j)]) || ($j + $i) >= $limit) {
