@@ -68,28 +68,15 @@ class AlbumContentElement extends \ContentElement
      */
     protected function compile()
     {
-        $files = \FilesModel::findByPid($this->facebookAlbum->getAlbumFolder()->getModel()->uuid);
-
-        if ($files === null) {
-            return;
-        }
-
-        $images = $this->generateImages($files);
+        $images = $this->facebookAlbum->getImages(
+            $this->facebook_album_order,
+            $GLOBALS['objPage']->language,
+            $this->metaIgnore,
+            $GLOBALS['objPage']->rootFallbackLanguage
+        );
 
         if (empty($images)) {
             return;
-        }
-
-        $metaFile = $this->facebookAlbum->getMetaFile();
-
-        // Sort the files if there is a meta file
-        if ($metaFile !== null) {
-            $metaData = json_decode($metaFile->getContent(), true);
-
-            // Sort array
-            if ($metaData !== null) {
-                $images = $this->sortImages($images, $metaData, $this->facebook_album_order);
-            }
         }
 
         $images = array_values($images);
@@ -130,59 +117,6 @@ class AlbumContentElement extends \ContentElement
         }
 
         $this->Template->images = $this->generatePartial($images, $offset, $limit);
-    }
-
-    /**
-     * Generate the images
-     *
-     * @param \Model\Collection $files
-     *
-     * @return array
-     */
-    protected function generateImages(\Model\Collection $files)
-    {
-        $images = [];
-
-        while ($files->next()) {
-            // Skip subfolders
-            if ($files->type == 'folder') {
-                continue;
-            }
-
-            $file = new \File($files->path, true);
-
-            if (!$file->isImage) {
-                continue;
-            }
-
-            $meta = $this->getMetaData($files->meta, $GLOBALS['objPage']->language);
-
-            if (empty($meta)) {
-                if ($this->metaIgnore) {
-                    continue;
-                } elseif ($GLOBALS['objPage']->rootFallbackLanguage !== null) {
-                    $meta = $this->getMetaData($files->meta, $GLOBALS['objPage']->rootFallbackLanguage);
-                }
-            }
-
-            // Use the file name as title if none is given
-            if ($meta['title'] == '') {
-                $meta['title'] = specialchars($file->basename);
-            }
-
-            // Add the image
-            $images[$files->path] = [
-                'id'        => $files->id,
-                'uuid'      => $files->uuid,
-                'name'      => $file->basename,
-                'singleSRC' => $files->path,
-                'alt'       => $meta['title'],
-                'imageUrl'  => $meta['link'],
-                'caption'   => $meta['caption']
-            ];
-        }
-
-        return $images;
     }
 
     /**
@@ -271,85 +205,5 @@ class AlbumContentElement extends \ContentElement
         $template->headline = $this->headline; // see #1603
 
         return $template->parse();
-    }
-
-    /**
-     * Sort the images
-     *
-     * @param array  $images
-     * @param array  $metaData
-     * @param string $sorting
-     *
-     * @return array
-     */
-    protected function sortImages(array $images, array $metaData, $sorting)
-    {
-        switch ($sorting) {
-            default:
-            case 'facebook':
-                $order = [];
-
-                // Order the images
-                foreach ($metaData['files'] as $meta) {
-                    foreach ($images as $path => $image) {
-                        if ($meta['name'] == $image['name']) {
-                            $order[] = $image;
-                            unset($images[$path]);
-                        }
-                    }
-                }
-
-                // Append the rest of images
-                if (!empty($images)) {
-                    $order = array_merge($order, $images);
-                }
-
-                // Revert the variable
-                $images = $order;
-                break;
-
-            case 'date_asc':
-            case 'date_desc':
-                $orderHelper = [];
-
-                // Prepare the order array
-                foreach ($metaData['files'] as $meta) {
-                    $orderHelper[$meta['name']] = $meta['date_updated'];
-                }
-
-                asort($orderHelper, SORT_NUMERIC);
-
-                // Sort descending
-                if (($this->facebook_album_order == 'date_desc')) {
-                    $orderHelper = array_reverse($orderHelper, true);
-                }
-
-                $order = [];
-
-                // Order images
-                foreach (array_keys($orderHelper) as $orderImage) {
-                    foreach ($images as $path => $image) {
-                        if ($orderImage == $image['name']) {
-                            $order[] = $image;
-                            unset($images[$path]);
-                        }
-                    }
-                }
-
-                // Append the rest of images
-                if (!empty($images)) {
-                    $order = array_merge($order, $images);
-                }
-
-                // Revert the variable
-                $images = $order;
-                break;
-
-            case 'random':
-                shuffle($images);
-                break;
-        }
-
-        return $images;
     }
 }

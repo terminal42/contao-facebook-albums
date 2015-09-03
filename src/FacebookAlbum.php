@@ -389,4 +389,184 @@ class FacebookAlbum
 
         return $response;
     }
+
+    /**
+     * Get the file models
+     *
+     * @return \Model\Collection|null
+     */
+    public function getFileModels()
+    {
+        $albumFolder = $this->getAlbumFolder();
+
+        if ($albumFolder === null) {
+            return null;
+        }
+
+        return \FilesModel::findByPid($albumFolder->getModel()->uuid);
+    }
+
+    /**
+     * Get the images
+     *
+     * @param string $sorting
+     * @param string $metaLanguage
+     * @param bool   $metaIgnore
+     * @param string $metaFallbackLanguage
+     *
+     * @return array
+     */
+    public function getImages($sorting, $metaLanguage, $metaIgnore = false, $metaFallbackLanguage = null)
+    {
+        $files = $this->getFileModels();
+
+        if ($files === null) {
+            return [];
+        }
+
+        $images = [];
+
+        while ($files->next()) {
+            // Skip subfolders
+            if ($files->type == 'folder') {
+                continue;
+            }
+
+            $file = new \File($files->path, true);
+
+            if (!$file->isImage) {
+                continue;
+            }
+
+            $meta = \Frontend::getMetaData($files->meta, $metaLanguage);
+
+            if (empty($meta)) {
+                if ($metaIgnore) {
+                    continue;
+                } elseif ($metaFallbackLanguage !== null) {
+                    $meta = \Frontend::getMetaData($files->meta, $metaFallbackLanguage);
+                }
+            }
+
+            // Use the file name as title if none is given
+            if ($meta['title'] == '') {
+                $meta['title'] = specialchars($file->basename);
+            }
+
+            // Add the image
+            $images[$files->path] = [
+                'id'        => $files->id,
+                'uuid'      => $files->uuid,
+                'name'      => $file->basename,
+                'singleSRC' => $files->path,
+                'alt'       => $meta['title'],
+                'imageUrl'  => $meta['link'],
+                'caption'   => $meta['caption']
+            ];
+        }
+
+        return $this->sortImages($images, $this->getMetaData(), $sorting);
+    }
+
+    /**
+     * Get the meta data
+     *
+     * @return array
+     */
+    protected function getMetaData()
+    {
+        $file = $this->getMetaFile();
+
+        if ($file === null) {
+            return [];
+        }
+
+        $data = json_decode($file->getContent(), true);
+
+        if ($data === null) {
+            return [];
+        }
+
+        return $data;
+    }
+
+    /**
+     * Sort the images
+     *
+     * @param array  $images
+     * @param array  $metaData
+     * @param string $sorting
+     *
+     * @return array
+     */
+    protected function sortImages(array $images, array $metaData, $sorting)
+    {
+        switch ($sorting) {
+            default:
+            case 'facebook':
+                $order = [];
+
+                // Order the images
+                foreach ($metaData['files'] as $meta) {
+                    foreach ($images as $path => $image) {
+                        if ($meta['name'] == $image['name']) {
+                            $order[] = $image;
+                            unset($images[$path]);
+                        }
+                    }
+                }
+
+                // Append the rest of images
+                if (!empty($images)) {
+                    $order = array_merge($order, $images);
+                }
+
+                // Revert the variable
+                $images = $order;
+                break;
+
+            case 'date_asc':
+            case 'date_desc':
+                $orderHelper = [];
+
+                // Prepare the order array
+                foreach ($metaData['files'] as $meta) {
+                    $orderHelper[$meta['name']] = $meta['date_updated'];
+                }
+
+                asort($orderHelper, SORT_NUMERIC);
+
+                // Sort descending
+                if (($sorting == 'date_desc')) {
+                    $orderHelper = array_reverse($orderHelper, true);
+                }
+
+                $order = [];
+
+                // Order images
+                foreach (array_keys($orderHelper) as $orderImage) {
+                    foreach ($images as $path => $image) {
+                        if ($orderImage == $image['name']) {
+                            $order[] = $image;
+                            unset($images[$path]);
+                        }
+                    }
+                }
+
+                // Append the rest of images
+                if (!empty($images)) {
+                    $order = array_merge($order, $images);
+                }
+
+                // Revert the variable
+                $images = $order;
+                break;
+
+            case 'random':
+                shuffle($images);
+                break;
+        }
+
+        return $images;
+    }
 }
