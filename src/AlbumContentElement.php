@@ -22,7 +22,7 @@ class AlbumContentElement extends \ContentElement
      * Template
      * @var string
      */
-    protected $strTemplate = 'ce_gallery';
+    protected $strTemplate = 'ce_facebook_album';
 
     /**
      * Facebook album
@@ -117,6 +117,37 @@ class AlbumContentElement extends \ContentElement
         }
 
         $this->Template->images = $this->generatePartial($images, $offset, $limit);
+
+        // Add the album information
+        if ($this->facebook_album_info) {
+            $this->compileAlbumInfo($total);
+        }
+    }
+
+    /**
+     * Generate the album info
+     *
+     * @param int $total
+     */
+    protected function compileAlbumInfo($total)
+    {
+        $metaData = $this->facebookAlbum->getMetaData();
+
+        // There is no information total number of images
+        // or there are no extra images in the album
+        if (empty($metaData) || !$metaData['count'] || $total >= $metaData['count']) {
+            return;
+        }
+
+        $this->Template->info = sprintf($GLOBALS['TL_LANG']['MSC']['facebook_album.info'], $total, $metaData['count']);
+
+        // Add the link
+        if ($metaData['link']) {
+            $this->Template->link = [
+                'title' => specialchars($GLOBALS['TL_LANG']['MSC']['facebook_album.link']),
+                'href'  => ampersand($metaData['link']),
+            ];
+        }
     }
 
     /**

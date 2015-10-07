@@ -12,3 +12,9 @@
  * Content elements
  */
 $GLOBALS['TL_LANG']['CTE']['facebook_album'] = ['Facebook album', 'Adds a gallery with photos from Facebook album to the page.'];
+
+/**
+ * Miscellaneous
+ */
+$GLOBALS['TL_LANG']['MSC']['facebook_album.info'] = 'Displaying %s of %s images of the Facebook album.';
+$GLOBALS['TL_LANG']['MSC']['facebook_album.link'] = 'Click here to view all';

@@ -247,6 +247,8 @@ class FacebookAlbum
 
         $data = [
             'id'           => $album->getId(),
+            'link'         => $album->getLink(),
+            'count'        => $album->getCount(),
             'date_created' => $dateCreated ? $dateCreated->getTimestamp() : 0,
             'date_updated' => $dateUpdated ? $dateUpdated->getTimestamp() : 0,
             'files'        => [],
@@ -331,7 +333,7 @@ class FacebookAlbum
      */
     public function getAlbum()
     {
-        $response = $this->request(sprintf('/%s?fields=created_time,updated_time', $this->albumId));
+        $response = $this->request(sprintf('/%s?fields=count,created_time,link,updated_time', $this->albumId));
 
         if ($response === null) {
             return null;
@@ -473,7 +475,7 @@ class FacebookAlbum
      *
      * @return array
      */
-    protected function getMetaData()
+    public function getMetaData()
     {
         $file = $this->getMetaFile();
 
