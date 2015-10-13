@@ -17,4 +17,4 @@ $GLOBALS['TL_LANG']['CTE']['facebook_album'] = ['Facebook album', 'Adds a galler
  * Miscellaneous
  */
 $GLOBALS['TL_LANG']['MSC']['facebook_album.info'] = 'Displaying %s of %s images of the Facebook album.';
-$GLOBALS['TL_LANG']['MSC']['facebook_album.link'] = 'Click here to view all';
+$GLOBALS['TL_LANG']['MSC']['facebook_album.link'] = 'Click here to view all on Facebook';
