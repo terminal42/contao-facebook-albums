@@ -11,7 +11,7 @@
 /**
  * Add palettes to tl_content
  */
-$GLOBALS['TL_DCA']['tl_content']['palettes']['facebook_album'] = '{type_legend},type,headline;{source_legend},facebook_album_account,facebook_album,facebook_album_order,metaIgnore;{image_legend},size,imagemargin,perRow,fullsize,perPage,numberOfItems;{template_legend:hide},galleryTpl,customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{invisible_legend:hide},invisible,start,stop';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['facebook_album'] = '{type_legend},type,headline;{source_legend},facebook_album_account,facebook_album,facebook_album_order,metaIgnore,facebook_album_info;{image_legend},size,imagemargin,perRow,fullsize,perPage,numberOfItems;{template_legend:hide},galleryTpl,customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{invisible_legend:hide},invisible,start,stop';
 
 /**
  * Add fields to tl_content
@@ -46,4 +46,13 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['facebook_album_order'] = array
     'reference'               => &$GLOBALS['TL_LANG']['tl_content']['facebook_album_order'],
     'eval'                    => array('tl_class'=>'w50'),
     'sql'                     => "varchar(16) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['facebook_album_info'] = array
+(
+    'label'                   => &$GLOBALS['TL_LANG']['tl_content']['facebook_album_info'],
+    'exclude'                 => true,
+    'inputType'               => 'checkbox',
+    'eval'                    => array('tl_class'=>'clr'),
+    'sql'                     => "char(1) NOT NULL default ''"
 );

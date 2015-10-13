@@ -14,6 +14,7 @@
 $GLOBALS['TL_LANG']['tl_content']['facebook_album_account'] = ['Facebook album account', 'Please choose the Facebook album account.'];
 $GLOBALS['TL_LANG']['tl_content']['facebook_album']         = ['Facebook album', 'Please choose the Facebook album.'];
 $GLOBALS['TL_LANG']['tl_content']['facebook_album_order']   = ['Facebook album order', 'Here you can choose the order of Facebook album images.'];
+$GLOBALS['TL_LANG']['tl_content']['facebook_album_info']    = ['Display album info', 'Display a short info with link to Facebook album if there are more images in the album than displayed on the website.'];
 
 /**
  * Reference

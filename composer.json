@@ -3,11 +3,10 @@
   "description":"Allow the Contao to display Facebook albums.",
   "keywords":["contao", "facebook", "album", "gallery", "image"],
   "type":"contao-module",
-  "license":"MIT",
+  "license":"LGPL-3.0+",
   "authors":[
     {
-      "name":"Kamil Kuzminski",
-      "email":"kamil.kuzminski@terminal42.ch",
+      "name":"terminal42 gmbh",
       "homepage":"http://terminal42.ch"
     }
   ],
@@ -15,7 +14,7 @@
     "php":">=5.4.0",
     "contao/core":"3.5.*",
     "contao-community-alliance/composer-plugin":"2.*",
-    "facebook/php-sdk-v4":"4.0.*"
+    "facebook/php-sdk-v4":"~5.0"
   },
   "autoload": {
     "psr-4": {

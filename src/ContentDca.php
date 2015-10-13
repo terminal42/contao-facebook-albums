@@ -10,8 +10,6 @@
 
 namespace Terminal42\FacebookAlbumsExtension;
 
-use Facebook\GraphAlbum;
-
 /**
  * Class ContentDca
  *
@@ -45,12 +43,16 @@ class ContentDca
             return [];
         }
 
-        $return = [];
-        $albums = FacebookAlbums::getAlbums($accountModel);
+        $facebookAlbum = new FacebookAlbum($accountModel);
 
-        /** @var GraphAlbum $album */
-        foreach ($albums as $album) {
-            $return[$album->getId()] = $album->getName();
+        if (!$facebookAlbum->connect()) {
+            return [];
+        }
+
+        $return = [];
+
+        foreach ($facebookAlbum->getAlbums() as $album) {
+            $return[$album['id']] = $album['name'];
         }
 
         return $return;
