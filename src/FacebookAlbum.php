@@ -31,7 +31,7 @@ class FacebookAlbum
 
     /**
      * Album ID
-     * @var int
+     * @var string
      */
     protected $albumId;
 
@@ -80,7 +80,7 @@ class FacebookAlbum
     /**
      * Get album ID
      *
-     * @return int
+     * @return string
      */
     public function getAlbumId()
     {
@@ -90,11 +90,11 @@ class FacebookAlbum
     /**
      * Set album ID
      *
-     * @param int $albumId
+     * @param string $albumId
      */
     public function setAlbumId($albumId)
     {
-        $this->albumId = (int) $albumId;
+        $this->albumId = $albumId;
     }
 
     /**
