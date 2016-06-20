@@ -257,10 +257,11 @@ class FacebookAlbum
         foreach ($photos as $photo) {
             $dateCreated = new \DateTime($photo['created_time']);
             $dateUpdated = new \DateTime($photo['updated_time']);
+            $source      = parse_url($photo['source']);
 
             $data['files'][] = [
                 'id'           => $photo['id'],
-                'name'         => basename($photo['source']),
+                'name'         => basename($source['path']),
                 'date_created' => $dateCreated ? $dateCreated->getTimestamp() : 0,
                 'date_updated' => $dateUpdated ? $dateUpdated->getTimestamp() : 0,
             ];
@@ -296,7 +297,9 @@ class FacebookAlbum
                 continue;
             }
 
-            $file = new \File($folder->path . '/' . basename($photo['source']));
+            $source = parse_url($photo['source']);
+
+            $file = new \File($folder->path . '/' . basename($source['path']));
             $file->write($request->response);
             $file->close();
         }
