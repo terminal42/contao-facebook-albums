@@ -109,7 +109,7 @@ class FacebookAlbum
                 [
                     'app_id'                => $this->accountModel->appId,
                     'app_secret'            => $this->accountModel->appSecret,
-                    'default_graph_version' => 'v2.4'
+                    'default_graph_version' => 'v2.10'
                 ]
             );
         } catch (FacebookSDKException $e) {
