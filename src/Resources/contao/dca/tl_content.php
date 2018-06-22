@@ -31,7 +31,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['facebook_album'] = array
     'label'                   => &$GLOBALS['TL_LANG']['tl_content']['facebook_album'],
     'exclude'                 => true,
     'inputType'               => 'select',
-    'options_callback'        => array('Terminal42\FacebookAlbumsExtension\ContentDca', 'getAlbums'),
+    'options_callback'        => array('Terminal42\FacebookAlbumsBundle\ContentDca', 'getAlbums'),
     'eval'                    => array('mandatory'=>true, 'includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50'),
     'sql'                     => "varchar(32) NOT NULL default ''"
 );
