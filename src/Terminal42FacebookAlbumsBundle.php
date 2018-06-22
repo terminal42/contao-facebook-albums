@@ -8,10 +8,10 @@
  * @license    commercial
  */
 
-/**
- * Register the templates
- */
-TemplateLoader::addFiles(array
-(
-    'ce_facebook_album' => 'system/modules/facebook-albums/templates/elements',
-));
+namespace Terminal42\FacebookAlbumsBundle;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class Terminal42FacebookAlbumsBundle extends Bundle
+{
+}

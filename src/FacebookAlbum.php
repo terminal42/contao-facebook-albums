@@ -8,8 +8,9 @@
  * @license    commercial
  */
 
-namespace Terminal42\FacebookAlbumsExtension;
+namespace Terminal42\FacebookAlbumsBundle;
 
+use Contao\Files;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
@@ -213,7 +214,14 @@ class FacebookAlbum
             return null;
         }
 
-        $file = new \File($folder->path . '/' . $this->metaFileName . '.json');
+        $path = $folder->path . '/' . $this->metaFileName . '.json';
+
+        // Create the file if it does not exist
+        if (!is_file(TL_ROOT . '/' . $path)) {
+            Files::getInstance()->fopen($path, 'wb');
+        }
+
+        $file = new \File($path);
 
         // Synchronize the file with database
         if ($file->getModel() === null) {

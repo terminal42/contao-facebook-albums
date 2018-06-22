@@ -8,7 +8,7 @@
  * @license    commercial
  */
 
-namespace Terminal42\FacebookAlbumsExtension;
+namespace Terminal42\FacebookAlbumsBundle;
 
 /**
  * Class AccountModel
