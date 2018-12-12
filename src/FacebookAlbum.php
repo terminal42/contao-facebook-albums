@@ -318,11 +318,13 @@ class FacebookAlbum
     /**
      * Get the albums
      *
+     * @param int $limit
+     *
      * @return array
      */
-    public function getAlbums()
+    public function getAlbums($limit = 1000)
     {
-        $response = $this->request(sprintf('/%s/albums', $this->accountModel->pageId));
+        $response = $this->request(sprintf('/%s/albums?limit=%s', $this->accountModel->pageId, $limit));
 
         if ($response === null) {
             return [];
