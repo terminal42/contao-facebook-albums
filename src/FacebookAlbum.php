@@ -336,6 +336,17 @@ class FacebookAlbum
             $albums[] = $album->uncastItems();
         }
 
+        // Sort the albums alphabetically
+        usort($albums, function ($a, $b) {
+            $i = strnatcasecmp($a['name'], $b['name']);
+
+            if ($i === 0) {
+                return 0;
+            }
+
+            return ($i > 0) ? 1 : -1;
+        });
+
         return $albums;
     }
 
