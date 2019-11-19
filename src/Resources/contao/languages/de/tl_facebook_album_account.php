@@ -15,6 +15,7 @@ $GLOBALS['TL_LANG']['tl_facebook_album_account']['name']      = ['Name', 'Bitte 
 $GLOBALS['TL_LANG']['tl_facebook_album_account']['pageId']    = ['Seiten-ID', 'Bitte geben Sie hier die Facebook Seiten-ID ein (page ID).'];
 $GLOBALS['TL_LANG']['tl_facebook_album_account']['appId']     = ['App-ID', 'Bitte geben Sie hier die Facebook App-ID ein.'];
 $GLOBALS['TL_LANG']['tl_facebook_album_account']['appSecret'] = ['App Geheimcode', 'Bitte geben Sie hier den Facebook Geheimcode ein (secret key).'];
+$GLOBALS['TL_LANG']['tl_facebook_album_account']['accessToken'] = ['User access token', 'Here you can enter a Facebook user access token (see documentation for more details).'];
 $GLOBALS['TL_LANG']['tl_facebook_album_account']['folder']    = ['Zielverzeichnis', 'Bitte wähle ein Zielverzeichnis, in das die Facebook-Bilder heruntergeladen werden sollen.'];
 
 /**
