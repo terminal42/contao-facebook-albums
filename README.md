@@ -10,5 +10,6 @@ In other cases you may want to obtain the access token manually as follows:
 and click `Get Token > Get User Access Token` to get the short-lived access token.
 2. Go to `https://graph.facebook.com/v5.0/oauth/access_token?grant_type=fb_exchange_token&client_id={app_id}&client_secret={app_secret}&fb_exchange_token={short_lived_token}` 
 and copy the access_token value from the JSON response, this is the long-lived access token.
-3. Use https://developers.facebook.com/tools/debug/accesstoken to verify that the token is valid and doesn't expire.
-4. You can then use this token `Custom Access Token` in the Facebook album account settings. 
+3. Use https://developers.facebook.com/tools/debug/accesstoken to verify that the token is valid, doesn't expire 
+and contains the `manage_pages` scope.
+4. You can then use this token `User Access Token` in the Facebook album account settings. 
