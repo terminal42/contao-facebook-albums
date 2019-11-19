@@ -86,7 +86,7 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
     // Palettes
     'palettes' => array
     (
-        'default'                     => '{name_legend},name,pageId,appId,appSecret;{config_legend},folder'
+        'default'                     => '{name_legend},name,pageId,appId,appSecret,accessToken;{config_legend},folder'
     ),
 
     // Fields
@@ -134,6 +134,14 @@ $GLOBALS['TL_DCA']['tl_facebook_album_account'] = array
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>32, 'tl_class'=>'w50'),
             'sql'                     => "varchar(32) NOT NULL default ''"
+        ),
+        'accessToken' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_facebook_album_account']['accessToken'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array('maxlength'=>255, 'tl_class'=>'clr'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'folder' => array
         (

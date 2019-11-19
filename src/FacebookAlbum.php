@@ -110,7 +110,7 @@ class FacebookAlbum
                 [
                     'app_id'                => $this->accountModel->appId,
                     'app_secret'            => $this->accountModel->appSecret,
-                    'default_graph_version' => 'v2.10'
+                    'default_graph_version' => 'v5.0'
                 ]
             );
         } catch (FacebookSDKException $e) {
@@ -402,7 +402,7 @@ class FacebookAlbum
         }
 
         try {
-            $response = $this->facebook->get($action, $this->facebook->getApp()->getAccessToken());
+            $response = $this->facebook->get($action, $this->accountModel->accessToken ?: $this->facebook->getApp()->getAccessToken());
         } catch (FacebookResponseException $e) {
             \System::log('Facebook response exception: ' . $e->getMessage(), __METHOD__, TL_ERROR);
 
