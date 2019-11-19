@@ -12,4 +12,4 @@ and click `Get Token > Get User Access Token` to get the short-lived access toke
 and copy the access_token value from the JSON response, this is the long-lived access token.
 3. Use https://developers.facebook.com/tools/debug/accesstoken to verify that the token is valid, doesn't expire 
 and contains the `manage_pages` scope.
-4. You can then use this token `User Access Token` in the Facebook album account settings. 
+4. You can then use this token as field value for `User Access Token` in the Facebook album account settings. 
