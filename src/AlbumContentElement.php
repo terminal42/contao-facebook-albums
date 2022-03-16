@@ -198,8 +198,10 @@ class AlbumContentElement extends \ContentElement
                 $cell = new \stdClass();
                 $key  = 'row_' . $rowcount . $class_tr . $class_eo;
 
+                $cell->addImage = false;
+
                 // Empty cell
-                if (!is_array($images[($i + $j)]) || ($j + $i) >= $limit) {
+                if (!is_array($images[($i + $j)] ?? null) || ($j + $i) >= $limit) {
                     $cell->colWidth = $colwidth . '%';
                     $cell->class    = 'col_' . $j . $class_td;
                 } else {
