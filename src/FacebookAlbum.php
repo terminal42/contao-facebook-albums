@@ -475,7 +475,7 @@ class FacebookAlbum
             }
 
             // Use the file name as title if none is given
-            if ($meta['title'] == '') {
+            if (($meta['title'] ?? null) == '') {
                 $meta['title'] = specialchars($file->basename);
             }
 
@@ -485,9 +485,9 @@ class FacebookAlbum
                 'uuid'      => $files->uuid,
                 'name'      => $file->basename,
                 'singleSRC' => $files->path,
-                'alt'       => $meta['title'],
-                'imageUrl'  => $meta['link'],
-                'caption'   => $meta['caption']
+                'alt'       => $meta['title'] ?? null,
+                'imageUrl'  => $meta['link'] ?? null,
+                'caption'   => $meta['caption'] ?? null
             ];
         }
 
@@ -533,7 +533,7 @@ class FacebookAlbum
                 $order = [];
 
                 // Order the images
-                foreach ($metaData['files'] as $meta) {
+                foreach (($metaData['files'] ?? []) as $meta) {
                     foreach ($images as $path => $image) {
                         if ($meta['name'] == $image['name']) {
                             $order[] = $image;
@@ -556,7 +556,7 @@ class FacebookAlbum
                 $orderHelper = [];
 
                 // Prepare the order array
-                foreach ($metaData['files'] as $meta) {
+                foreach (($metaData['files'] ?? []) as $meta) {
                     $orderHelper[$meta['name']] = $meta['date_updated'];
                 }
 
