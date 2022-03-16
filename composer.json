@@ -13,7 +13,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "contao/core-bundle": "^4.4",
-        "facebook/graph-sdk": "~5.0"
+        "nickdnk/graph-sdk": "^6.0"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0"
@@ -28,5 +28,12 @@
     },
     "extra": {
         "contao-manager-plugin": "Terminal42\\FacebookAlbumsBundle\\ContaoManager\\Plugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "ocramius/package-versions": true,
+            "contao/manager-plugin": true
+        }
     }
 }
